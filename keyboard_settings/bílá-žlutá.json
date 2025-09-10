@@ -1580,7 +1580,7 @@
             "RepeatDelay" : 0,
             "WFlag" : 4,
             "WinFlag" : 0,
-            "napoveda__________ProKey6Flag_______linka" : "1 - oranžová, 2 = žlutá, 3 - zelená, 4 - světle modrá, 6 - fialová, 7 - bílá, 8 - vypnuto",
+            "napoveda__________Key6Flag_______linka" : "1 - oranžová, 2 = žlutá, 3 - zelená, 4 - světle modrá, 6 - fialová, 7 - bílá, 8 - vypnuto",
             "napoveda__________ProPollingRate____volume" : "1 - prechod, 2 - červená, 3 - oranžová, 4 = žlutá, 5 - zelená, 6 - světle modrá, 7 - tmavě modrá, 8 - fialová, 9 - vypnuto",
             "napoveda__________WFlag_____________linka" : "0 - rainbow, 3 = pusující náhodná barva, 4 = konstatní barva, 5 = vypnuto"
          }
@@ -1620,4 +1620,3 @@
    "profileUUID" : "2025_09_06_18_17_18_067",
    "profilename" : "bílá + fialová"
 }
-
