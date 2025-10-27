@@ -32,33 +32,65 @@ public class SonixKeyboard : IDisposable
         {
             var devices = DeviceList.Local.GetHidDevices(VendorId, ProductId);
             
+            Console.WriteLine($"Found {devices.Count()} SONiX devices with VID: 0x{VendorId:X4}, PID: 0x{ProductId:X4}");
+            
             foreach (var device in devices)
             {
                 try
                 {
-                    // Try to open the device - HidSharp will filter by usage automatically
-                    _device = device;
-                    _stream = device.Open();
+                    Console.WriteLine($"Trying device: {device.DevicePath}");
                     
-                    Console.WriteLine($"Connected to device:");
-                    Console.WriteLine($"Manufacturer: {device.GetManufacturer()}");
-                    Console.WriteLine($"Product: {device.GetProductName()}");
+                    // Try to open the device
+                    var stream = device.Open();
                     
-                    return true;
+                    // Test if we can write to this device
+                    if (!stream.CanWrite)
+                    {
+                        Console.WriteLine("❌ Device opened but is read-only");
+                        stream.Close();
+                        continue;
+                    }
+                    
+                    // Test with a simple packet to see if it accepts writes
+                    try
+                    {
+                        var testPacket = new byte[64];
+                        testPacket[0] = 0x04; // Report ID
+                        
+                        stream.Write(testPacket);
+                        Console.WriteLine("✅ Write test successful");
+                        
+                        // If we get here, the device works for writing
+                        _device = device;
+                        _stream = stream;
+                        
+                        Console.WriteLine($"✅ Connected to writable device: {device.GetProductName() ?? "Unknown"}");
+                        Console.WriteLine($"   Manufacturer: {device.GetManufacturer() ?? "Unknown"}");
+                        Console.WriteLine($"   Path: {device.DevicePath}");
+                        
+                        return true;
+                    }
+                    catch (Exception writeEx)
+                    {
+                        Console.WriteLine($"❌ Write test failed: {writeEx.Message}");
+                        stream.Close();
+                        continue;
+                    }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Console.WriteLine($"❌ Failed to open device: {ex.Message}");
                     // Continue to next device if this one fails
                     continue;
                 }
             }
             
-            Console.WriteLine("Keyboard not found or unable to open!");
+            Console.WriteLine("❌ No usable SONiX keyboard found!");
             return false;
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error connecting to keyboard: {ex.Message}");
+            Console.WriteLine($"❌ Error connecting to keyboard: {ex.Message}");
             return false;
         }
     }

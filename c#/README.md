@@ -1,14 +1,30 @@
-# KeyRGB - .NET RGB Keyboard Control Library
+# 🎨 KeyRGB - Smart RGB Keyboard Monitor
 
-🎨 Complete RGB lighting control for SONiX USB keyboards (VID: 0x0c45, PID: 0x8508) in .NET
+⚪ **Bílé klávesy s inteligentním barevným podsvícením** podle aktivní aplikace v .NET
 
 ![.NET](https://img.shields.io/badge/.NET-8.0-purple)
 ![C#](https://img.shields.io/badge/C%23-12-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
+## 🎯 Nové funkce - TrayMonitor
+
+**KeyRGB TrayMonitor** automaticky mění **pouze podsvícení** (klávesy zůstávají bílé) podle typu aktivní aplikace:
+
+### 🎨 **Finální schéma podsvícení (75% intenzita):**
+- 🟠 **ORANŽOVÉ podsvícení** - Vývojářské IDE (VS Code, PhpStorm, Rider, atd.)
+- � **MODRÉ podsvícení** - Microsoft Edge  
+- 🟢 **ZELENÉ podsvícení** - Microsoft Office (Word, Excel, PowerPoint)
+- 🟡 **ŽLUTÉ podsvícení** - Speciální aplikace
+- � **FIALOVÉ podsvícení** - Ostatní aplikace (výchozí)
+
+### 🚀 **Rychlé spuštění:**
+```powershell
+.\KeyRGB.TrayMonitor\bin\Release\net8.0-windows\KeyRGB.TrayMonitor.exe
+```
+
 ## 🚀 Overview
 
-This project is a .NET conversion of the original Python RGB keyboard controller. It provides a NuGet library for easy integration into C# applications and includes a console application for testing.
+Kompletní .NET řešení pro ovládání SONiX USB RGB klávesnic (VID: 0x0c45, PID: 0x8508) s inteligentním monitoringem aplikací.
 
 **Note**: White colors are NOT supported by the hardware - only available colors are used.
 

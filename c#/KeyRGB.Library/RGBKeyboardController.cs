@@ -168,6 +168,55 @@ public class RGBKeyboardController : IDisposable
         return _keyboard.SendPacket(packet);
     }
 
+    /// <summary>
+    /// Set a static color for the entire keyboard
+    /// </summary>
+    /// <param name="color">Color to set</param>
+    /// <param name="intensity">Intensity from 0-100 (default: 100)</param>
+    /// <returns>True if color was set successfully</returns>
+    public bool SetStaticColor(Color color, int intensity = 100)
+    {
+        // Determine special color based on the color
+        int specialColor = GetSpecialColorFromColor(color);
+        
+        return ApplyRgbLighting($"{color.R},{color.G},{color.B}", intensity, specialColor);
+    }
+
+    /// <summary>
+    /// Get the best matching special color index for a given color
+    /// </summary>
+    /// <param name="color">Color to match</param>
+    /// <returns>Special color index (0-7)</returns>
+    private int GetSpecialColorFromColor(Color color)
+    {
+        // If it's green, use green theme
+        if (color.G > color.R && color.G > color.B && color.G > 200)
+            return 3; // green theme
+        
+        // If it's purple/magenta, use purple theme
+        if (color.R > color.G && color.B > color.G && Math.Abs(color.R - color.B) < 50)
+            return 5; // purple theme
+        
+        // If it's red, use red theme
+        if (color.R > color.G && color.R > color.B && color.R > 200)
+            return 6; // red theme
+        
+        // If it's blue, use blue theme
+        if (color.B > color.R && color.B > color.G && color.B > 200)
+            return 7; // dark blue theme
+        
+        // If it's yellow, use yellow theme
+        if (color.R > 200 && color.G > 200 && color.B < 100)
+            return 2; // yellow theme
+        
+        // If it's orange, use orange theme
+        if (color.R > 200 && color.G > 100 && color.G < 200 && color.B < 100)
+            return 1; // orange theme
+        
+        // Default to purple theme
+        return 5;
+    }
+
     public void Dispose()
     {
         if (!_disposed)
